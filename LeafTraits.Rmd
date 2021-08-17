@@ -1,0 +1,26 @@
+---
+title: "LeafTraits"
+author: "Marcela Morassi"
+date: "8/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+
+data <- read_csv("LeafTraitsTW0.csv")
+
+data_clean <- data %>% 
+  filter(percent_damage>0)
+
+
+```
+
+
+
+
