@@ -12,12 +12,16 @@ knitr::opts_chunk$set(echo = TRUE)
 Marcela's startup (wd, data, packages)
 ```{r}
 library(tidyverse)
+library(ggpubr)
+library(RColorBrewer)
+library(rcompanion)
 
-data <- read_csv("LeafTraitsTW0.csv")
+setwd("C:/Users/Marcela Morassi/Dropbox/2021_SummerInterns/MM")
 
-data_clean <- data %>% 
-  filter(percent_damage>0)
 
+data <- read.csv("LeafTraitsTW0.csv")
+
+traits <- read.csv("SERCmasterdata2021CSV.csv")
 
 ```
 
@@ -90,4 +94,72 @@ Boxplot percent damage by species
 ggplot(percent_damage, aes(x=species, y=percent_damage)) + geom_boxplot()
 
 ```
+
+Trait boxplots
+```{r}
+ggplot(traits, aes(x=species, y=toughness)) + geom_boxplot()
+
+traits2 <- traits %>% 
+  filter(thickness<.3)
+
+ggplot(traits2, aes(x=species, y=thickness)) + geom_boxplot()
+
+g3 <- ggplot(traits2, aes(x=species, y=thickness, fill=site)) + geom_boxplot(position="dodge")
+
+g3 + stat_summary(fun.y=mean, geom="point", shape=5, size=4)
+
+ggplot(traits2, aes(x=species, y=water_content_percent, fill=site)) + geom_boxplot()
+
+
+```
+
+normality testing of traits
+```{r}
+shapiro.test(traits2$water_content_percent)
+
+
+#visualizing distribution
+plot(traits2$water_content_percent)
+hist(traits2$water_content_percent)
+```
+
+Load in new packages
+```{r}
+library(lme4)
+library(nlme)
+library(lattice)
+library(effects)
+```
+
+models
+```{r}
+mod0 <- lm(water_content_percent ~ species, data = traits2)
+
+mod1 <- lm(water_content_percent ~ species*site, data = traits2)
+
+mod2 <- lme(water_content_percent ~ species*site, random= ~1|TreeID, data = traits2)
+
+mod3 <- lme(toughness ~ species*site, random= ~1|TreeID, data = traits2)
+
+mod4 <- lme(thickness ~ species*site, random= ~1|TreeID, data = traits2)
+
+mod5 <- lme(percent_damage ~ species, random= ~1|TreeID, data = percent_damage)
+
+mod6 <- lm(percent_damage ~species, data = percent_damage)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
