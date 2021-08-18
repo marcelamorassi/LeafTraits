@@ -158,6 +158,14 @@ mod4 <- lme(thickness ~ species*site, random= ~1|TreeID, data = traits2)
 mod5 <- lme(percent_damage ~ species, random= ~1|TreeID, data = percent_damage)
 
 mod6 <- lm(percent_damage ~species, data = percent_damage)
+
+mod7 <- lme(percent_damage ~ toughness, random= ~1|TreeID, data = percent_damage)
+
+mod8 <- lme(percent_damage ~ thickness, random= ~1|TreeID, data = percent_damage)
+
+mod9 <- lme(percent_damage ~ water_content_percent, random= ~1|TreeID, data = percent_damage)
+
+mod10 <- lme(percent_damage ~ SLA, random= ~1|TreeID, data = percent_damage)
 ```
 
 ordinations
@@ -167,11 +175,42 @@ library(vegan)
 
 ##principal coordinates analysis##
 
-pcoa1 <- capscale(ord_data1[,3:5] ~ 1, dist = "bray", metaMDS = TRUE)
+ord1<- metaMDS(ord_data1[,2:4])
 
+pcoa <- capscale(ord_data1[, 2:4] ~ 1, dist = "bray" )
+
+pcoa2 <- capscale(ord_data1[, 2:4] ~ site.species, data = traits3, dist = "bray" )
+
+#plot(pcoa) 
+#points(pcoa, display = "sites", col = 'grey') 
+#text(pcoa, display = 'bp', col = 'blue')
+
+
+
+#plots <- 1:nrow(ord1)
+#plotData <- ord_data1[,1]
+#plot(sppBC$points,col=as.factor(plotData$location))
+#ordiellipse(sppBC, groups = as.factor(plotData$Watershed), kind = "sd", display = "plots", label = T)
 
 
 ```
+
+regression for traits
+```{r}
+ggplot(percent_damage, aes(x = water_content_percent, y = percent_damage, color = species)) + 
+  geom_point(shape = 1) +
+  scale_colour_hue(l=50) +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
+  xlab("Water Content Percent") + ylab("Percent Damage")
+
+ggplot(percent_damage, aes(x = SLA, y = percent_damage, color = species)) + 
+  geom_point(shape = 1) +
+  scale_colour_hue(l=50) +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
+  xlab("SLA") + ylab("Percent Damage")
+
+```
+
 
 
 
