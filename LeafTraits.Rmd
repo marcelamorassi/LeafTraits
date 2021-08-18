@@ -18,7 +18,6 @@ library(rcompanion)
 
 setwd("C:/Users/Marcela Morassi/Dropbox/2021_SummerInterns/MM")
 
-
 data <- read.csv("LeafTraitsTW0.csv")
 
 traits <- read.csv("SERCmasterdata2021CSV.csv")
@@ -46,6 +45,21 @@ Data manipulation
 ##filter for samples with percent damage##
 percent_damage <- data %>% 
   filter(percent_damage>0)
+
+##removing outlier/false thickness measurements##
+############ Marcela will fix these #############
+
+traits2 <- traits %>% 
+  filter(thickness<.3)
+
+##data preparation for ordinations##
+
+traits3 <- traits2 %>%
+  unite(site.species, c("site", "species"))
+
+ord_data1 <- traits3 %>%
+  select(site.species, toughness, thickness, water_content_percent)
+
 
 ```
 
@@ -100,9 +114,6 @@ Trait boxplots
 ```{r}
 ggplot(traits, aes(x=species, y=toughness, fill = site)) + geom_boxplot()
 
-traits2 <- traits %>% 
-  filter(thickness<.3)
-
 ggplot(traits2, aes(x=species, y=thickness, fill = site)) + geom_boxplot()
 
 ##g3 <- ggplot(traits2, aes(x=species, y=thickness, fill=site)) + geom_boxplot(position="dodge")
@@ -149,8 +160,18 @@ mod5 <- lme(percent_damage ~ species, random= ~1|TreeID, data = percent_damage)
 mod6 <- lm(percent_damage ~species, data = percent_damage)
 ```
 
+ordinations
+```{r}
+
+library(vegan)
+
+##principal coordinates analysis##
+
+pcoa1 <- capscale(ord_data1[,3:5] ~ 1, dist = "bray", metaMDS = TRUE)
 
 
+
+```
 
 
 
