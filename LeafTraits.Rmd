@@ -36,6 +36,7 @@ setwd("C:/Users/hrusk/Dropbox (Smithsonian)/2021_SummerInterns/MM")
 
 data <- read.csv("LeafTraitsTW0.csv")
 
+traits <- read.csv("SERCmasterdata2021CSV.csv")
 
 ```
 
@@ -97,16 +98,16 @@ ggplot(percent_damage, aes(x=species, y=percent_damage)) + geom_boxplot()
 
 Trait boxplots
 ```{r}
-ggplot(traits, aes(x=species, y=toughness)) + geom_boxplot()
+ggplot(traits, aes(x=species, y=toughness, fill = site)) + geom_boxplot()
 
 traits2 <- traits %>% 
   filter(thickness<.3)
 
-ggplot(traits2, aes(x=species, y=thickness)) + geom_boxplot()
+ggplot(traits2, aes(x=species, y=thickness, fill = site)) + geom_boxplot()
 
-g3 <- ggplot(traits2, aes(x=species, y=thickness, fill=site)) + geom_boxplot(position="dodge")
+##g3 <- ggplot(traits2, aes(x=species, y=thickness, fill=site)) + geom_boxplot(position="dodge")
 
-g3 + stat_summary(fun.y=mean, geom="point", shape=5, size=4)
+##g3 + stat_summary(fun.y=mean, geom="point", shape=5, size=4)
 
 ggplot(traits2, aes(x=species, y=water_content_percent, fill=site)) + geom_boxplot()
 
