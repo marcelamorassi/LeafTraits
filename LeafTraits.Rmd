@@ -222,6 +222,7 @@ ggplot(percent_damage, aes(x = water_content_percent, y = percent_damage, color 
   
 g5 <- ggplot(percent_damage, aes(x = water_content_percent, y = percent_damage, color = species)) + 
   geom_point(shape = 20, size = 4) +
+  geom_smooth(method = "lm", se = F)
   xlab("Percent Water Content") + ylab("Percent Damage")
 
 g5 + theme(panel.background = element_rect(fill = "black"), plot.background = element_rect(fill = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "white"), axis.text = element_text(size = 9, colour = "white", face = "italic"), axis.title.y = element_text(size = 16, margin = margin(t = 0, r = 10, b = 0, l = 0), colour = "white"), axis.title.x = element_text(size = 16, margin = margin(t = 10, r = 0, b = 0, l = 0), colour = "white"), legend.background = element_blank(), legend.key = element_rect( fill = "black"), legend.text = element_text(colour = "white"))
