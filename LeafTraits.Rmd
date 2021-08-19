@@ -31,6 +31,7 @@ library(tidyverse)
 library(ggpubr)
 library(RColorBrewer)
 library(rcompanion)
+library(ggdark)
 
 setwd("C:/Users/hrusk/Dropbox (Smithsonian)/2021_SummerInterns/MM")
 
@@ -101,7 +102,9 @@ g1 <- ggplot(data = barGraphStats(data = percent_damage, variable = "percent_dam
     scale_fill_manual(values = cbPalette) 
 
 ##setting theme to remove background grid and add axis lines##    
-g1 + theme(panel.background = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), text = element_text(size = 16),axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)), axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)), legend.position = "none")
+g1 + theme(panel.background = element_rect(fill = "black"), plot.background = element_rect(fill = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "white"), axis.text = element_text(size = 10, colour = "white", face = "italic"), axis.title.y = element_text(size = 16, margin = margin(t = 0, r = 10, b = 0, l = 0), colour = "white"), axis.title.x = element_text(size = 16, margin = margin(t = 10, r = 0, b = 0, l = 0), colour = "white"), legend.position = "none")
+
+ggsave("damage_v_species.png")
 
 ```
 
@@ -113,17 +116,26 @@ ggplot(percent_damage, aes(x=species, y=percent_damage)) + geom_boxplot()
 
 Trait boxplots
 ```{r}
-ggplot(traits, aes(x=species, y=toughness, fill = site)) + geom_boxplot()+
-  dark_theme_classic()
+g2 <- ggplot(traits, aes(x=species, y=toughness, fill = site)) + geom_boxplot() +
+  xlab("Species") +ylab("Toughness")
+ 
+g2 + theme(panel.background = element_rect(fill = "black"), plot.background = element_rect(fill = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "white"), axis.text = element_text(size = 9, colour = "white", face = "italic"), axis.title.y = element_text(size = 16, margin = margin(t = 0, r = 10, b = 0, l = 0), colour = "white"), axis.title.x = element_text(size = 16, margin = margin(t = 10, r = 0, b = 0, l = 0), colour = "white"), legend.background = element_blank(), legend.key = element_rect( fill = "black"), legend.text = element_text(colour = "white"))
 
+ggsave("toughness_site_species.png")
 
-ggplot(traits2, aes(x=species, y=thickness, fill = site)) + geom_boxplot()
+g3 <- ggplot(traits2, aes(x=species, y=thickness, fill = site)) + geom_boxplot()+
+  xlab("Species") + ylab ("Thickness")
 
-##g3 <- ggplot(traits2, aes(x=species, y=thickness, fill=site)) + geom_boxplot(position="dodge")
+g3 + theme(panel.background = element_rect(fill = "black"), plot.background = element_rect(fill = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "white"), axis.text = element_text(size = 9, colour = "white", face = "italic"), axis.title.y = element_text(size = 16, margin = margin(t = 0, r = 10, b = 0, l = 0), colour = "white"), axis.title.x = element_text(size = 16, margin = margin(t = 10, r = 0, b = 0, l = 0), colour = "white"), legend.background = element_blank(), legend.key = element_rect( fill = "black"), legend.text = element_text(colour = "white"))
 
-##g3 + stat_summary(fun.y=mean, geom="point", shape=5, size=4)
+ggsave("thickness_species_site.png")
 
-ggplot(traits2, aes(x=species, y=water_content_percent, fill=site)) + geom_boxplot()
+g4 <- ggplot(traits2, aes(x=species, y=water_content_percent, fill=site)) + geom_boxplot()+
+  xlab("Species") + ylab("Water Content Percent")
+
+g4 + theme(panel.background = element_rect(fill = "black"), plot.background = element_rect(fill = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "white"), axis.text = element_text(size = 9, colour = "white", face = "italic"), axis.title.y = element_text(size = 16, margin = margin(t = 0, r = 10, b = 0, l = 0), colour = "white"), axis.title.x = element_text(size = 16, margin = margin(t = 10, r = 0, b = 0, l = 0), colour = "white"), legend.background = element_blank(), legend.key = element_rect( fill = "black"), legend.text = element_text(colour = "white"))
+
+ggsave("water_species_site.png")
 
 
 ```
@@ -208,13 +220,19 @@ ggplot(percent_damage, aes(x = water_content_percent, y = percent_damage, color 
   scale_colour_hue(l=50) +
   xlab("Water Content Percent") + ylab("Percent Damage")
   
-ggplot(percent_damage, aes(x = water_content_percent, y = percent_damage, color = species)) + 
-  geom_point(shape = 1) +
-  dark_theme_bw()+
-  theme(legend.position = "top")+
-  scale_colour_hue(l=50) +
-  facet_grid(species ~ .)
-  xlab("Water Content Percent") + ylab("Percent Damage")
+g5 <- ggplot(percent_damage, aes(x = water_content_percent, y = percent_damage, color = species)) + 
+  geom_point(shape = 20, size = 4) +
+  xlab("Percent Water Content") + ylab("Percent Damage")
+
+g5 + theme(panel.background = element_rect(fill = "black"), plot.background = element_rect(fill = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "white"), axis.text = element_text(size = 9, colour = "white", face = "italic"), axis.title.y = element_text(size = 16, margin = margin(t = 0, r = 10, b = 0, l = 0), colour = "white"), axis.title.x = element_text(size = 16, margin = margin(t = 10, r = 0, b = 0, l = 0), colour = "white"), legend.background = element_blank(), legend.key = element_rect( fill = "black"), legend.text = element_text(colour = "white"))
+  
+ggsave("percentdamage_watercontent.png") 
+  
+  #dark_theme_bw()+
+  #theme(legend.position = "top")+
+  #scale_colour_hue(l=50) +
+  #facet_grid(species ~ .)
+  #xlab("Water Content Percent") + ylab("Percent Damage")
 
 ggplot(percent_damage, aes(x = SLA, y = percent_damage, color = species)) + 
   geom_point(shape = 1) +
