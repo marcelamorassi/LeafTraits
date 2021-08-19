@@ -182,6 +182,8 @@ mod8 <- lme(percent_damage ~ thickness, random= ~1|TreeID, data = percent_damage
 mod9 <- lme(percent_damage ~ water_content_percent, random= ~1|TreeID, data = percent_damage)
 
 mod10 <- lme(percent_damage ~ SLA, random= ~1|TreeID, data = percent_damage)
+
+mod11 <- lme(percent_damage ~ species, random = ~1|TreeID, data = percent_damage)
 ```
 
 ordinations
