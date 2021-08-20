@@ -240,7 +240,7 @@ ggplot(percent_damage, aes(x = SLA, y = percent_damage, color = species)) +
   geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
   xlab("SLA") + ylab("Percent Damage")
 
-ggsave("WCplot.png")
+
 ```
 
 
